@@ -1,5 +1,6 @@
 package com.example.mini_community.controller;
 
+import com.example.mini_community.domain.KakaoProfile;
 import com.example.mini_community.domain.KakaoToken;
 import com.example.mini_community.service.KakaoLoginService;
 import lombok.extern.slf4j.Slf4j;
@@ -27,9 +28,10 @@ public class KakaoLoginController {
     private KakaoLoginService kakaoLoginService;
 
     @GetMapping("/oauth/kakao")
-    public String getAccessToken(@RequestParam("code") String code) throws IOException {
+    public KakaoProfile getProfile(@RequestParam("code") String code) throws IOException {
         KakaoToken kakaoToken = kakaoLoginService.getAccessToken(clientId, redirectUri, code);
+        KakaoProfile kakaoProfile = kakaoLoginService.getProfile(kakaoToken.getAccess_token());
 
-        return kakaoToken.getAccess_token();
+        return kakaoProfile;
     }
 }

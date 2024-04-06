@@ -1,5 +1,6 @@
 package com.example.mini_community.service;
 
+import com.example.mini_community.domain.KakaoProfile;
 import com.example.mini_community.domain.KakaoToken;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,5 +52,35 @@ public class KakaoLoginService {
         }
 
         return kakaoToken;
+    }
+
+    public KakaoProfile getProfile(String accessToken) {
+        String url = "https://kapi.kakao.com";
+
+        WebClient wc = WebClient.builder()
+                .baseUrl(url)
+                .build();
+
+        String result = wc.get()
+                .uri("/v2/user/me")
+                .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + accessToken)
+                .header("Content-type", "application/x-www-form-urlencoded;charset=utf-8")
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        KakaoProfile kakaoProfile = null;
+
+        try {
+            kakaoProfile = objectMapper.readValue(result, KakaoProfile.class);
+        } catch (JsonProcessingException e) {
+            log.error("Exception Location : {}", e.getStackTrace()[0]);
+            log.error("Error Message : {}", e.getMessage());
+            log.error("Exception : {}", e.toString());
+        }
+
+        return kakaoProfile;
     }
 }
