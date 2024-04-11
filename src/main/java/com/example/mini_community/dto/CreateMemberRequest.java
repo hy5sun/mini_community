@@ -14,13 +14,4 @@ public class CreateMemberRequest {
     private String password;
     private String nickname;
     private String profile_img;
-
-    public Member toEntity() {
-        return Member.builder()
-                .email(email)
-                .password(password)
-                .nickname(nickname)
-                .profile_img(profile_img)
-                .build();
-    }
 }
