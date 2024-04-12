@@ -22,7 +22,7 @@ import java.util.Set;
 public class TokenProvider {
     private final JwtProperties jwtProperties;
 
-    private String generateToken(Duration expiredAt, Member member) {
+    public String generateToken(Duration expiredAt, Member member) {
         Date now = new Date();
 
         return Jwts.builder()
@@ -56,7 +56,7 @@ public class TokenProvider {
         return new UsernamePasswordAuthenticationToken(new User(claims.getSubject(), "", authorities), token, authorities);
     }
 
-    public Long getUserId(String token){
+    public Long getMemberId(String token){
         Claims claims = getClaims(token);
         return claims.get("id", Long.class);
     }
