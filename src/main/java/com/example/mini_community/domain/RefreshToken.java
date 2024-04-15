@@ -1,6 +1,7 @@
 package com.example.mini_community.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,18 +10,20 @@ import lombok.NoArgsConstructor;
 @Entity
 public class RefreshToken {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(updatable = false)
+    @Column(name="member_id", nullable = false)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private Long memberId;
+    @OneToOne
+    @MapsId
+    @JoinColumn(name="member_id")
+    private Member member;
 
     @Column(nullable = false)
     private String refreshToken;
 
-    public RefreshToken(Long memberId, String refreshToken) {
-        this.memberId = memberId;
+    @Builder
+    public RefreshToken(Member member, String refreshToken) {
+        this.member = member;
         this.refreshToken = refreshToken;
     }
 
