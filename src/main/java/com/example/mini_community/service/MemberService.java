@@ -43,6 +43,12 @@ public class MemberService {
     @Transactional
     public Member findByEmail(String email) {
         return memberRepository.findByEmail(email)
-                .orElseThrow(()-> new IllegalArgumentException("해당 이메일에 해당하는 회원이 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("해당 이메일에 해당하는 회원이 존재하지 않습니다."));
+    }
+
+    @Transactional
+    public Member findById(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 id에 해당하는 회원이 존재하지 않습니다."));
     }
 }
