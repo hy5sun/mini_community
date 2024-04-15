@@ -35,7 +35,7 @@ public class AuthService {
         String accessToken = tokenProvider.generateToken(Duration.ofHours(2), member);
         String refreshToken = tokenProvider.generateToken(Duration.ofDays(7), member);
 
-        // refreshToken 저장
+        // refreshToken 저장 (추후에 암호화 후 저장하도록 수정)
         RefreshToken rt = RefreshToken.builder()
                 .member(member)
                 .refreshToken(refreshToken)
@@ -49,5 +49,30 @@ public class AuthService {
         tokens.put("refreshToken", refreshToken);
 
         return tokens;
+    }
+
+    @Transactional
+    public String  createNewAccessToken(String refreshToken) {
+        if (!tokenProvider.validToken(refreshToken)) {
+            throw new IllegalArgumentException("유효하지 않은 토큰입니다.");
+        }
+
+        Long memberId = tokenProvider.getMemberId(refreshToken);
+
+        // 저장된 RT과 값이 같은지 확인
+        if (!this.findRTByMemberId(memberId).equals(refreshToken)) {
+            throw new IllegalArgumentException("잘못된 값의 토큰입니다.");
+        }
+
+        Member member = memberService.findById(memberId);
+
+        String newAccessToken = tokenProvider.generateToken(Duration.ofHours(2), member);
+
+        return newAccessToken;
+    }
+
+    private RefreshToken findRTByMemberId(Long memberId) {
+        return refreshTokenRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자의 token이 존재하지 않습니다."));
     }
 }
