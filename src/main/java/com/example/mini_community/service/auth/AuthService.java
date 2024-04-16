@@ -60,7 +60,7 @@ public class AuthService {
         Long memberId = tokenProvider.getMemberId(refreshToken);
 
         // 저장된 RT과 값이 같은지 확인
-        if (!this.findRTByMemberId(memberId).equals(refreshToken)) {
+        if (!this.findRTByMemberId(memberId).getRefreshToken().equals(refreshToken)) {
             throw new IllegalArgumentException("잘못된 값의 토큰입니다.");
         }
 
