@@ -1,20 +1,21 @@
 package com.example.mini_community.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
+@Table(name="refresh_token")
 public class RefreshToken {
     @Id
-    @Column(name="member_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne
-    @MapsId
     @JoinColumn(name="member_id")
     private Member member;
 

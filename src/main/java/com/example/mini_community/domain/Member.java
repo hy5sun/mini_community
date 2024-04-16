@@ -1,10 +1,7 @@
 package com.example.mini_community.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -20,7 +17,7 @@ import java.util.List;
 @Entity
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @Builder
 public class Member implements UserDetails {
@@ -39,6 +36,10 @@ public class Member implements UserDetails {
 
     @Column(nullable = false)
     private String profile_img;
+
+    @OneToOne(mappedBy = "member")
+    @PrimaryKeyJoinColumn
+    private RefreshToken refreshToken;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
