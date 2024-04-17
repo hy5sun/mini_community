@@ -1,7 +1,7 @@
-package com.example.mini_community.service;
+package com.example.mini_community.service.oauth2.kakao;
 
-import com.example.mini_community.domain.KakaoProfile;
-import com.example.mini_community.domain.KakaoToken;
+import com.example.mini_community.domain.oauth2.kakao.KakaoProfile;
+import com.example.mini_community.domain.oauth2.kakao.KakaoToken;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;

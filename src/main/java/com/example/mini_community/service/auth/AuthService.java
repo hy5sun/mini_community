@@ -1,11 +1,11 @@
 package com.example.mini_community.service.auth;
 
-import com.example.mini_community.config.jwt.TokenProvider;
-import com.example.mini_community.domain.Member;
-import com.example.mini_community.domain.RefreshToken;
+import com.example.mini_community.common.config.jwt.TokenProvider;
+import com.example.mini_community.domain.member.Member;
+import com.example.mini_community.domain.refreshToken.RefreshToken;
 import com.example.mini_community.dto.auth.LoginRequest;
-import com.example.mini_community.repository.RefreshTokenRepository;
-import com.example.mini_community.service.MemberService;
+import com.example.mini_community.repository.refreshToken.RefreshTokenRepository;
+import com.example.mini_community.service.member.MemberService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

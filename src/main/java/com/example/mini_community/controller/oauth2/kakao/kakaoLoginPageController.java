@@ -1,4 +1,4 @@
-package com.example.mini_community.controller;
+package com.example.mini_community.controller.oauth2.kakao;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;

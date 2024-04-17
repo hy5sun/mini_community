@@ -1,6 +1,6 @@
-package com.example.mini_community.config;
+package com.example.mini_community.common.config;
 
-import com.example.mini_community.config.jwt.TokenProvider;
+import com.example.mini_community.common.config.jwt.TokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

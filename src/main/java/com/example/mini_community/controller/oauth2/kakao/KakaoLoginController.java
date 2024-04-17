@@ -1,8 +1,8 @@
-package com.example.mini_community.controller;
+package com.example.mini_community.controller.oauth2.kakao;
 
-import com.example.mini_community.domain.KakaoProfile;
-import com.example.mini_community.domain.KakaoToken;
-import com.example.mini_community.service.KakaoLoginService;
+import com.example.mini_community.domain.oauth2.kakao.KakaoProfile;
+import com.example.mini_community.domain.oauth2.kakao.KakaoToken;
+import com.example.mini_community.service.oauth2.kakao.KakaoLoginService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

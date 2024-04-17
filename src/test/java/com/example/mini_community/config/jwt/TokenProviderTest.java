@@ -1,7 +1,9 @@
 package com.example.mini_community.config.jwt;
 
-import com.example.mini_community.domain.Member;
-import com.example.mini_community.repository.MemberRepository;
+import com.example.mini_community.common.config.jwt.JwtProperties;
+import com.example.mini_community.common.config.jwt.TokenProvider;
+import com.example.mini_community.domain.member.Member;
+import com.example.mini_community.repository.member.MemberRepository;
 import io.jsonwebtoken.Jwts;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

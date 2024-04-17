@@ -1,4 +1,4 @@
-package com.example.mini_community.domain;
+package com.example.mini_community.domain.oauth2.kakao;
 
 import lombok.Data;
 

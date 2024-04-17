@@ -1,6 +1,6 @@
-package com.example.mini_community.config.jwt;
+package com.example.mini_community.common.config.jwt;
 
-import com.example.mini_community.domain.Member;
+import com.example.mini_community.domain.member.Member;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;

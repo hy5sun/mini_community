@@ -1,5 +1,6 @@
 package com.example.mini_community.config.jwt;
 
+import com.example.mini_community.common.config.jwt.JwtProperties;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

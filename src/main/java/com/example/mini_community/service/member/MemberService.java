@@ -1,8 +1,8 @@
-package com.example.mini_community.service;
+package com.example.mini_community.service.member;
 
-import com.example.mini_community.domain.Member;
-import com.example.mini_community.dto.CreateMemberRequest;
-import com.example.mini_community.repository.MemberRepository;
+import com.example.mini_community.domain.member.Member;
+import com.example.mini_community.dto.member.CreateMemberRequest;
+import com.example.mini_community.repository.member.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

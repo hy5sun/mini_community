@@ -1,6 +1,5 @@
-package com.example.mini_community.dto;
+package com.example.mini_community.dto.member;
 
-import com.example.mini_community.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

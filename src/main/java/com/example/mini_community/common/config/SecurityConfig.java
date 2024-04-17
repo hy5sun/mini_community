@@ -1,6 +1,6 @@
-package com.example.mini_community.config;
+package com.example.mini_community.common.config;
 
-import com.example.mini_community.service.UserDetailService;
+import com.example.mini_community.service.member.UserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

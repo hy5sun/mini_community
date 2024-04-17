@@ -1,4 +1,4 @@
-package com.example.mini_community.config.jwt;
+package com.example.mini_community.common.config.jwt;
 
 import lombok.Data;
 import lombok.Getter;

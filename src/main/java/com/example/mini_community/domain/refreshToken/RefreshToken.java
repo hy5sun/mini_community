@@ -1,5 +1,6 @@
-package com.example.mini_community.domain;
+package com.example.mini_community.domain.refreshToken;
 
+import com.example.mini_community.domain.member.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

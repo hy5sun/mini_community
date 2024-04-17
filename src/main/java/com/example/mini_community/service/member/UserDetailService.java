@@ -1,7 +1,7 @@
-package com.example.mini_community.service;
+package com.example.mini_community.service.member;
 
-import com.example.mini_community.domain.Member;
-import com.example.mini_community.repository.MemberRepository;
+import com.example.mini_community.domain.member.Member;
+import com.example.mini_community.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;

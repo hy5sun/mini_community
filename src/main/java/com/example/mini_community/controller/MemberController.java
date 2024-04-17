@@ -1,8 +1,8 @@
 package com.example.mini_community.controller;
 
-import com.example.mini_community.domain.Member;
-import com.example.mini_community.dto.CreateMemberRequest;
-import com.example.mini_community.service.MemberService;
+import com.example.mini_community.domain.member.Member;
+import com.example.mini_community.dto.member.CreateMemberRequest;
+import com.example.mini_community.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

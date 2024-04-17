@@ -1,14 +1,13 @@
 package com.example.mini_community.controller;
 
 import com.example.mini_community.config.jwt.JwtFactory;
-import com.example.mini_community.config.jwt.JwtProperties;
-import com.example.mini_community.domain.Member;
-import com.example.mini_community.domain.RefreshToken;
+import com.example.mini_community.common.config.jwt.JwtProperties;
+import com.example.mini_community.domain.member.Member;
+import com.example.mini_community.domain.refreshToken.RefreshToken;
 import com.example.mini_community.dto.auth.CreateAccessTokenRequest;
-import com.example.mini_community.repository.MemberRepository;
-import com.example.mini_community.repository.RefreshTokenRepository;
+import com.example.mini_community.repository.member.MemberRepository;
+import com.example.mini_community.repository.refreshToken.RefreshTokenRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.aspectj.lang.annotation.After;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

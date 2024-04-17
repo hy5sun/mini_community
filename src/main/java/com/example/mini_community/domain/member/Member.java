@@ -1,5 +1,6 @@
-package com.example.mini_community.domain;
+package com.example.mini_community.domain.member;
 
+import com.example.mini_community.domain.refreshToken.RefreshToken;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
