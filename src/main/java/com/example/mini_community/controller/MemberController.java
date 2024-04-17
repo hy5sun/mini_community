@@ -1,7 +1,7 @@
 package com.example.mini_community.controller;
 
 import com.example.mini_community.domain.Member;
-import com.example.mini_community.dto.JoinMemberRequest;
+import com.example.mini_community.dto.CreateMemberRequest;
 import com.example.mini_community.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class MemberController {
     private MemberService memberService;
 
     @PostMapping("/join")
-    public ResponseEntity<Member> join(@RequestBody JoinMemberRequest req) {
+    public ResponseEntity<Member> join(@RequestBody CreateMemberRequest req) {
         Member savedMember = memberService.join(req);
 
         return ResponseEntity.status(HttpStatus.CREATED)

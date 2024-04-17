@@ -39,4 +39,16 @@ public class MemberService {
             throw new IllegalStateException("이미 존재하는 닉네임입니다.");
         }
     }
+
+    @Transactional
+    public Member findByEmail(String email) {
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("해당 이메일에 해당하는 회원이 존재하지 않습니다."));
+    }
+
+    @Transactional
+    public Member findById(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 id에 해당하는 회원이 존재하지 않습니다."));
+    }
 }
