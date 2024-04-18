@@ -4,7 +4,7 @@ import com.example.mini_community.common.config.jwt.TokenProvider;
 import com.example.mini_community.domain.member.Member;
 import com.example.mini_community.domain.refreshToken.RefreshToken;
 import com.example.mini_community.dto.auth.LoginRequest;
-import com.example.mini_community.dto.auth.CreateMemberRequest;
+import com.example.mini_community.dto.auth.JoinRequest;
 import com.example.mini_community.repository.member.MemberRepository;
 import com.example.mini_community.repository.refreshToken.RefreshTokenRepository;
 import com.example.mini_community.service.member.MemberService;
@@ -27,7 +27,7 @@ public class AuthService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Transactional
-    public Member join(CreateMemberRequest req) {
+    public Member join(JoinRequest req) {
         Member member = Member.builder()
                 .email(req.getEmail())
                 .password(bCryptPasswordEncoder.encode(req.getPassword()))

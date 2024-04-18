@@ -4,7 +4,7 @@ import com.example.mini_community.common.config.jwt.JwtProperties;
 import com.example.mini_community.domain.member.Member;
 import com.example.mini_community.domain.refreshToken.RefreshToken;
 import com.example.mini_community.dto.auth.CreateAccessTokenRequest;
-import com.example.mini_community.dto.auth.CreateMemberRequest;
+import com.example.mini_community.dto.auth.JoinRequest;
 import com.example.mini_community.dto.auth.LoginRequest;
 import com.example.mini_community.repository.member.MemberRepository;
 import com.example.mini_community.repository.refreshToken.RefreshTokenRepository;
@@ -72,7 +72,7 @@ class AuthControllerTest {
     void join() throws Exception {
 
         final String url = "/auth/join";
-        CreateMemberRequest req = new CreateMemberRequest("test@gmail.com", "qwer1234", "test", "ss.jpeg");
+        JoinRequest req = new JoinRequest("test@gmail.com", "qwer1234", "test", "ss.jpeg");
         final String requestBody = objectMapper.writeValueAsString(req);
 
         ResultActions result = mockMvc.perform(post(url)
