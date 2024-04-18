@@ -24,15 +24,15 @@ public class SecurityConfig {
         return http
                 .csrf((csrfConfig) -> csrfConfig.disable())
                 .authorizeRequests((requests) -> requests
-                        .requestMatchers("/", "/login", "/join", "/user").permitAll()
+                        .requestMatchers("/", "/auth/login", "/auth/join", "/auth/token", "/user").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-                        .loginPage("/login")
+                        .loginPage("/auth/login")
                         .defaultSuccessUrl("/", true).permitAll()
                 )
                 .logout((logout) -> logout
-                        .logoutSuccessUrl("/login")
+                        .logoutSuccessUrl("/auth/logout")
                         .invalidateHttpSession(true)
                 )
                 .build();
