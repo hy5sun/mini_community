@@ -4,6 +4,8 @@ import com.example.mini_community.common.config.jwt.TokenProvider;
 import com.example.mini_community.domain.member.Member;
 import com.example.mini_community.domain.refreshToken.RefreshToken;
 import com.example.mini_community.dto.auth.LoginRequest;
+import com.example.mini_community.dto.auth.JoinRequest;
+import com.example.mini_community.repository.member.MemberRepository;
 import com.example.mini_community.repository.refreshToken.RefreshTokenRepository;
 import com.example.mini_community.service.member.MemberService;
 import jakarta.transaction.Transactional;
@@ -21,7 +23,29 @@ public class AuthService {
     private final TokenProvider tokenProvider;
     private final MemberService memberService;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Transactional
+    public Member join(JoinRequest req) {
+        Member member = Member.builder()
+                .email(req.getEmail())
+                .password(bCryptPasswordEncoder.encode(req.getPassword()))
+                .nickname(req.getNickname())
+                .profile_img(req.getProfile_img())
+                .build();
+
+        this.validateDuplicateMember(member);
+
+        return memberRepository.save(member);
+    }
+
+    @Transactional
+    public void validateDuplicateMember(Member member) {
+        if (memberRepository.existsByNickname(member.getNickname())) {
+            throw new IllegalStateException("이미 존재하는 닉네임입니다.");
+        }
+    }
 
     @Transactional
     public Map<String, String> signIn(LoginRequest loginRequest) {

@@ -1,9 +1,7 @@
 package com.example.mini_community.controller.auth;
 
-import com.example.mini_community.dto.auth.CreateAccessTokenRequest;
-import com.example.mini_community.dto.auth.CreateAccessTokenResponse;
-import com.example.mini_community.dto.auth.LoginRequest;
-import com.example.mini_community.dto.auth.LoginResponse;
+import com.example.mini_community.domain.member.Member;
+import com.example.mini_community.dto.auth.*;
 import com.example.mini_community.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,6 +16,14 @@ import java.util.Map;
 public class AuthController {
 
     private final AuthService authService;
+
+    @PostMapping("/join")
+    public ResponseEntity<JoinResponse> join(@RequestBody JoinRequest req) {
+        Member savedMember = authService.join(req);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(JoinResponse.entityToDto(HttpStatus.CREATED.value(), "회원가입에 성공하셨습니다.", savedMember));
+    }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login (@RequestBody LoginRequest loginRequest) {
