@@ -56,6 +56,11 @@ public class AuthService {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
+        if (refreshTokenRepository.findByMemberId(member.getId()) != null) {
+            // 이미 있기 때문에 삭제하고 재발급
+            refreshTokenRepository.deleteByMemberId(member.getId());
+        }
+
         String accessToken = tokenProvider.generateToken(Duration.ofHours(2), member);
         String refreshToken = tokenProvider.generateToken(Duration.ofDays(7), member);
 
