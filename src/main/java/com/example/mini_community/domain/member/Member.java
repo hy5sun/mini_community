@@ -17,10 +17,8 @@ import java.util.List;
 @Table(name="member")
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-@Builder
 public class Member implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,7 +49,8 @@ public class Member implements UserDetails {
     private LocalDateTime updatedAt;
 
     @Builder
-    public Member(String nickname, String profile_img, String password) {
+    public Member(String email, String nickname, String profile_img, String password) {
+        this.email = email;
         this.nickname = nickname;
         this.profile_img = profile_img;
         this.password = password;
@@ -69,7 +68,7 @@ public class Member implements UserDetails {
 
     @Override
     public String getUsername() {
-        return nickname;
+        return email;
     }
 
     @Override
