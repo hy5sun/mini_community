@@ -6,6 +6,7 @@ import com.example.mini_community.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -18,7 +19,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/join")
-    public ResponseEntity<JoinResponse> join(@RequestBody JoinRequest req) {
+    public ResponseEntity<JoinResponse> join(@Validated @RequestBody JoinRequest req) {
         Member savedMember = authService.join(req);
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -26,7 +27,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login (@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<LoginResponse> login (@Validated @RequestBody LoginRequest loginRequest) {
         Map<String, String> tokens = authService.signIn(loginRequest);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new LoginResponse("로그인에 성공하셨습니다.", tokens.get("accessToken"), tokens.get("refreshToken")));
