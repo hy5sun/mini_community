@@ -104,4 +104,9 @@ public class AuthService {
         return refreshTokenRepository.findByMemberId(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자의 token이 존재하지 않습니다."));
     }
+
+    public Member findMemberByToken(String token) {
+        Long memberId = tokenProvider.getMemberId(token);
+        return memberService.findById(memberId);
+    }
 }
