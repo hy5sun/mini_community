@@ -37,7 +37,7 @@ public enum ErrorCode {
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error", "서버 에러가 발생했습니다.");
 
     private final int statusCode;
-    private final String error;
+    private final String reason;
     private final String message;
 }
 
