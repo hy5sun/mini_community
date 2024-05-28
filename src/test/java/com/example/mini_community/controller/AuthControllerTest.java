@@ -3,7 +3,6 @@ package com.example.mini_community.controller;
 import com.example.mini_community.common.config.jwt.JwtProperties;
 import com.example.mini_community.domain.member.Member;
 import com.example.mini_community.domain.refreshToken.RefreshToken;
-import com.example.mini_community.dto.auth.CreateAccessTokenRequest;
 import com.example.mini_community.dto.auth.JoinRequest;
 import com.example.mini_community.dto.auth.LoginRequest;
 import com.example.mini_community.repository.member.MemberRepository;
@@ -119,14 +118,11 @@ class AuthControllerTest {
         RefreshToken refreshToken = refreshTokenRepository.findByMemberId(testMember.getId())
                 .orElseThrow(() -> new IllegalArgumentException("memberId의 토큰이 존재하지 않습니다."));
 
-        CreateAccessTokenRequest req = new CreateAccessTokenRequest();
-        req.setRefreshToken(refreshToken.getRefreshToken());
-        final String reqBody = objectMapper.writeValueAsString(req);
 
         // when
         ResultActions resultActions = mockMvc.perform(post(url)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(reqBody));
+                .contentType(MediaType.ALL)
+                .content(String.valueOf(testMember)));
 
         // then
         resultActions
