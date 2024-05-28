@@ -10,7 +10,7 @@ public enum ErrorCode {
     // 잘못된 값 입력 오류
     INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST.value(), "Bad Request", "올바르지 않은 입력값입니다."),
     // 잘못된 비밀번호 입력 오류
-    WRONG_EMAIL_OR_PASSWORD(HttpStatus.BAD_REQUEST.value(), "Bad Request", "이메일 혹은 비밀번호가 일치하지 않습니다."),
+    WRONG_PASSWORD(HttpStatus.BAD_REQUEST.value(), "Bad Request", "비밀번호가 일치하지 않습니다."),
 
     // 만료된 토큰 오류
     EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED.value(), "Unauthorized", "유효하지 않은 토큰입니다."),
