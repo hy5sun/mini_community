@@ -1,6 +1,7 @@
 package com.example.mini_community.service.auth;
 
 import com.example.mini_community.common.config.jwt.TokenProvider;
+import com.example.mini_community.common.exception.BusinessException;
 import com.example.mini_community.domain.member.Member;
 import com.example.mini_community.domain.refreshToken.RefreshToken;
 import com.example.mini_community.dto.auth.LoginRequest;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.example.mini_community.common.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -43,7 +46,9 @@ public class AuthService {
     @Transactional
     public void validateDuplicateMember(Member member) {
         if (memberRepository.existsByNickname(member.getNickname())) {
-            throw new IllegalStateException("이미 존재하는 닉네임입니다.");
+            throw new BusinessException(DUPLICATED_NICKNAME);
+        } else if (memberRepository.existsMemberByEmail(member.getEmail())) {
+            throw new BusinessException(DUPLICATED_EMAIL);
         }
     }
 
@@ -53,7 +58,7 @@ public class AuthService {
         Member member = memberService.findByEmail(loginRequest.getEmail());
 
         if(!bCryptPasswordEncoder.matches(loginRequest.getPassword(), member.getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new BusinessException(WRONG_PASSWORD);
         }
 
         if (refreshTokenRepository.findByMemberId(member.getId()) != null) {
@@ -83,14 +88,14 @@ public class AuthService {
     @Transactional
     public String  createNewAccessToken(String refreshToken) {
         if (!tokenProvider.validToken(refreshToken)) {
-            throw new IllegalArgumentException("유효하지 않은 토큰입니다.");
+            throw new BusinessException(EXPIRED_TOKEN);
         }
 
         Long memberId = tokenProvider.getMemberId(refreshToken);
 
         // 저장된 RT과 값이 같은지 확인
         if (!this.findRTByMemberId(memberId).getRefreshToken().equals(refreshToken)) {
-            throw new IllegalArgumentException("잘못된 값의 토큰입니다.");
+            throw new BusinessException(INVALID_TOKEN);
         }
 
         Member member = memberService.findById(memberId);
@@ -102,7 +107,7 @@ public class AuthService {
 
     private RefreshToken findRTByMemberId(Long memberId) {
         return refreshTokenRepository.findByMemberId(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("사용자의 token이 존재하지 않습니다."));
+                .orElseThrow(() -> new BusinessException(TOKEN_NOT_FOUND));
     }
 
     public Member findMemberByToken(String token) {
