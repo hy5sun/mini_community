@@ -89,8 +89,7 @@ public class AuthService {
     @Transactional
     public CreateAccessTokenResponse createNewAccessToken(Member member) {
 
-        String refreshToken = String.valueOf(member.getRefreshToken());
-        log.info("리프레시 토큰: " + refreshToken);
+        String refreshToken = member.getRefreshToken().getRefreshToken();
 
         if (!tokenProvider.validToken(refreshToken)) {
             throw new BusinessException(EXPIRED_TOKEN);
