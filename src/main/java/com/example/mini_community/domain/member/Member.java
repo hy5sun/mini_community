@@ -1,16 +1,14 @@
 package com.example.mini_community.domain.member;
 
+import com.example.mini_community.common.entity.BaseTimeEntity;
 import com.example.mini_community.domain.refreshToken.RefreshToken;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -19,7 +17,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-public class Member implements UserDetails {
+public class Member extends BaseTimeEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,14 +37,6 @@ public class Member implements UserDetails {
     @OneToOne(mappedBy = "member")
     @PrimaryKeyJoinColumn
     private RefreshToken refreshToken;
-
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime updatedAt;
 
     @Builder
     public Member(String email, String nickname, String profile_img, String password) {
