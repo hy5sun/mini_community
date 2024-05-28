@@ -1,5 +1,6 @@
 package com.example.mini_community.controller.auth;
 
+import com.example.mini_community.common.config.annotation.Login;
 import com.example.mini_community.domain.member.Member;
 import com.example.mini_community.dto.auth.*;
 import com.example.mini_community.service.auth.AuthService;
@@ -34,10 +35,10 @@ public class AuthController {
     }
 
     @PostMapping("/token")
-    public ResponseEntity<CreateAccessTokenResponse> createNewAccessToken (@RequestBody CreateAccessTokenRequest req) {
-        String newAccessToken = authService.createNewAccessToken(req.getRefreshToken());
+    public ResponseEntity<CreateAccessTokenResponse> createNewAccessToken (@Login Member member) {
+        CreateAccessTokenResponse newAccessToken = authService.createNewAccessToken(member);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new CreateAccessTokenResponse("accessToken을 정상적으로 발급했습니다.", newAccessToken));
+                .body(new CreateAccessTokenResponse(newAccessToken.getAccessToken()));
     }
 }

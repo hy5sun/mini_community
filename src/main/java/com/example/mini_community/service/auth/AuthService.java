@@ -4,6 +4,7 @@ import com.example.mini_community.common.config.jwt.TokenProvider;
 import com.example.mini_community.common.exception.BusinessException;
 import com.example.mini_community.domain.member.Member;
 import com.example.mini_community.domain.refreshToken.RefreshToken;
+import com.example.mini_community.dto.auth.CreateAccessTokenResponse;
 import com.example.mini_community.dto.auth.LoginRequest;
 import com.example.mini_community.dto.auth.JoinRequest;
 import com.example.mini_community.repository.member.MemberRepository;
@@ -86,23 +87,23 @@ public class AuthService {
     }
 
     @Transactional
-    public String  createNewAccessToken(String refreshToken) {
+    public CreateAccessTokenResponse createNewAccessToken(Member member) {
+
+        String refreshToken = String.valueOf(member.getRefreshToken());
+        log.info("리프레시 토큰: " + refreshToken);
+
         if (!tokenProvider.validToken(refreshToken)) {
             throw new BusinessException(EXPIRED_TOKEN);
         }
 
-        Long memberId = tokenProvider.getMemberId(refreshToken);
-
         // 저장된 RT과 값이 같은지 확인
-        if (!this.findRTByMemberId(memberId).getRefreshToken().equals(refreshToken)) {
+        if (!this.findRTByMemberId(member.getId()).getRefreshToken().equals(refreshToken)) {
             throw new BusinessException(INVALID_TOKEN);
         }
 
-        Member member = memberService.findById(memberId);
-
         String newAccessToken = tokenProvider.generateToken(Duration.ofHours(2), member);
 
-        return newAccessToken;
+        return CreateAccessTokenResponse.entityToDto(newAccessToken);
     }
 
     private RefreshToken findRTByMemberId(Long memberId) {
