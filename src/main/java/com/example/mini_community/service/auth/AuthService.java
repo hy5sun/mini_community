@@ -4,25 +4,23 @@ import com.example.mini_community.common.config.jwt.TokenProvider;
 import com.example.mini_community.common.exception.BusinessException;
 import com.example.mini_community.domain.member.Member;
 import com.example.mini_community.domain.refreshToken.RefreshToken;
-import com.example.mini_community.dto.auth.CreateAccessTokenResponse;
-import com.example.mini_community.dto.auth.LoginRequest;
-import com.example.mini_community.dto.auth.JoinRequest;
+import com.example.mini_community.dto.auth.*;
 import com.example.mini_community.repository.member.MemberRepository;
 import com.example.mini_community.repository.refreshToken.RefreshTokenRepository;
 import com.example.mini_community.service.member.MemberService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.example.mini_community.common.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
     private final TokenProvider tokenProvider;
     private final MemberService memberService;
@@ -31,7 +29,7 @@ public class AuthService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Transactional
-    public Member join(JoinRequest req) {
+    public JoinResponse join(JoinRequest req) {
         Member member = Member.builder()
                 .email(req.getEmail())
                 .password(bCryptPasswordEncoder.encode(req.getPassword()))
@@ -41,7 +39,9 @@ public class AuthService {
 
         this.validateDuplicateMember(member);
 
-        return memberRepository.save(member);
+        memberRepository.save(member);
+
+        return JoinResponse.entityToDto(member);
     }
 
     @Transactional
@@ -54,7 +54,7 @@ public class AuthService {
     }
 
     @Transactional
-    public Map<String, String> signIn(LoginRequest loginRequest) {
+    public LoginResponse signIn(LoginRequest loginRequest) {
 
         Member member = memberService.findByEmail(loginRequest.getEmail());
 
@@ -78,12 +78,7 @@ public class AuthService {
 
         refreshTokenRepository.save(rt);
 
-        // 클라이언트에게 전달
-        HashMap<String, String> tokens = new HashMap<>();
-        tokens.put("accessToken", accessToken);
-        tokens.put("refreshToken", refreshToken);
-
-        return tokens;
+        return LoginResponse.entityToDto(accessToken, refreshToken);
     }
 
     @Transactional
