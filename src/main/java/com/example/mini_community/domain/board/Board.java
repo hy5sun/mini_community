@@ -1,7 +1,6 @@
 package com.example.mini_community.domain.board;
 
 import com.example.mini_community.common.entity.BaseTimeEntity;
-import com.example.mini_community.domain.category.Category;
 import com.example.mini_community.domain.member.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -10,14 +9,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.util.UUID;
+
 @Table(name="board")
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Board extends BaseTimeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(nullable = false)
     private String title;
