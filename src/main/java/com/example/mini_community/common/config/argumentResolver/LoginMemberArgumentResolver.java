@@ -1,6 +1,8 @@
 package com.example.mini_community.common.config.argumentResolver;
 
 import com.example.mini_community.common.config.annotation.Login;
+import com.example.mini_community.common.exception.BusinessException;
+import com.example.mini_community.common.exception.ErrorCode;
 import com.example.mini_community.domain.member.Member;
 import com.example.mini_community.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,11 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         String authorization = webRequest.getHeader("authorization");
+
+        if (authorization == null) {
+            throw new BusinessException(ErrorCode.UNAUTHORIZED_MEMBER);
+        }
+
         String token = authorization.substring(7);
 
         return authService.findMemberByToken(token);
