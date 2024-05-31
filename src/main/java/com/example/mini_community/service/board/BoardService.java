@@ -1,5 +1,6 @@
 package com.example.mini_community.service.board;
 
+import com.example.mini_community.common.exception.BusinessException;
 import com.example.mini_community.domain.board.Board;
 import com.example.mini_community.domain.member.Member;
 import com.example.mini_community.dto.board.AllBoardsResponse;
@@ -12,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
+
+import static com.example.mini_community.common.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -44,5 +48,13 @@ public class BoardService {
                 .toList();
 
         return boards;
+    }
+
+    @Transactional
+    public BoardResponse findById(UUID id) {
+        Board board = boardRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(BOARD_NOT_FOUND));
+
+        return BoardResponse.entityToDto(board);
     }
 }

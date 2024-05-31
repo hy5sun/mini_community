@@ -23,6 +23,8 @@ public enum ErrorCode {
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "Not Found", "존재하지 않는 회원입니다."),
     // 토큰을 찾을 수 없는 오류
     TOKEN_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "Not Found", "존재하지 않는 토큰입니다"),
+    // 게시물 찾을 수 없는 오류
+    BOARD_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "Not Found", "존재하지 않는 게시물입니다."),
 
     // 닉네임 중복 오류
     DUPLICATED_NICKNAME(HttpStatus.CONFLICT.value(), "Conflict", "이미 존재하는 닉네임입니다."),

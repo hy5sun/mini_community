@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/boards")
@@ -33,6 +34,13 @@ public class BoardController {
         List<AllBoardsResponse> boards = boardService.findAll();
 
         return CustomResponse.response(HttpStatus.OK, "모든 게시물을 정상적으로 조회했습니다.", boards);
+    }
+
+    @GetMapping("/{boardId}")
+    public CustomResponse findById(@PathVariable UUID boardId, @Login Member member) {
+        BoardResponse board = boardService.findById(boardId);
+
+        return CustomResponse.response(HttpStatus.OK, "게시물을 정상적으로 조회했습니다.", board);
     }
 
 }
