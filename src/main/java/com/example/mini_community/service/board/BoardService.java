@@ -6,7 +6,6 @@ import com.example.mini_community.dto.board.AllBoardsResponse;
 import com.example.mini_community.dto.board.BoardResponse;
 import com.example.mini_community.dto.board.CreateBoardRequest;
 import com.example.mini_community.repository.board.BoardRepository;
-import com.example.mini_community.service.member.MemberService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +40,7 @@ public class BoardService {
 
         List<AllBoardsResponse> boards = boardRepository.findAll()
                 .stream()
-                .map((Board board) -> new AllBoardsResponse(board.getTitle(), board.getContent(), board.getImage()))
+                .map((Board board) -> new AllBoardsResponse(board.getId().toString(), board.getTitle(), board.getContent(), board.getImage(), board.getMember().getNickname()))
                 .toList();
 
         return boards;
