@@ -53,37 +53,34 @@ public class BoardService {
 
     @Transactional
     public BoardResponse findById(UUID id) {
-        Board board = this.getById(id);
+        Board board = getById(id);
         return BoardResponse.entityToDto(board);
-    }
-
-    @Transactional
-    public Board getById(UUID id) {
-        return boardRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(BOARD_NOT_FOUND));
     }
 
     @Transactional
     public BoardResponse editBoard(UUID id, UpdateBoardRequest req, Member member) {
         Board board = this.getById(id);
-        if (board.getMember() != member) {
-            throw new BusinessException(UNAUTHORIZED_MEMBER);
-        }
-
+        validateAuthor(board, member);
         board.update(req.getTitle(), req.getContent(), req.getImage());
-
         return BoardResponse.entityToDto(board);
     }
 
     @Transactional
     public BoardResponse deleteBoard(UUID id, Member member) {
-        Board board = this.getById(id);
-
-        if(board.getMember() != member) {
-            throw new BusinessException(UNAUTHORIZED_MEMBER);
-        }
-
+        Board board = getById(id);
+        validateAuthor(board, member);
         boardRepository.delete(board);
         return BoardResponse.entityToDto(board);
+    }
+
+    public Board getById(UUID id) {
+        return boardRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(BOARD_NOT_FOUND));
+    }
+
+    public void validateAuthor(Board board, Member member) {
+        if (!member.equals(board.getMember())) {
+            throw new BusinessException(UNAUTHORIZED_MEMBER);
+        }
     }
 }
