@@ -13,7 +13,7 @@ public class BoardResponse {
     private String title;
     private String content;
     private String image;
-    private String writer_nickname;
+    private String writer;
     private Integer view_count;
     private Integer like_count;
 
