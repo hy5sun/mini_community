@@ -52,8 +52,9 @@ public class BoardService {
     }
 
     @Transactional
-    public BoardResponse findById(UUID id) {
+    public BoardResponse findById(UUID id, Member member) {
         Board board = getById(id);
+        increaseViewCount(board, member);
         return BoardResponse.entityToDto(board);
     }
 
@@ -78,9 +79,19 @@ public class BoardService {
                 .orElseThrow(() -> new BusinessException(BOARD_NOT_FOUND));
     }
 
+    public Boolean isAuthor(Board board, Member member) {
+        return member.equals(board.getMember());
+    }
+
     public void validateAuthor(Board board, Member member) {
-        if (!member.equals(board.getMember())) {
+        if (!isAuthor(board, member)) {
             throw new BusinessException(UNAUTHORIZED_MEMBER);
+        }
+    }
+
+    public void increaseViewCount(Board board, Member member) {
+        if (!isAuthor(board, member)) {
+            board.increaseViewCount();
         }
     }
 }

@@ -40,7 +40,7 @@ public class BoardController {
 
     @GetMapping("/{boardId}")
     public CustomResponse findById(@PathVariable("boardId") UUID boardId, @Login Member member) {
-        BoardResponse board = boardService.findById(boardId);
+        BoardResponse board = boardService.findById(boardId, member);
 
         return CustomResponse.response(HttpStatus.OK, "게시물을 정상적으로 조회했습니다.", board);
     }

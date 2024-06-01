@@ -3,10 +3,7 @@ package com.example.mini_community.domain.board;
 import com.example.mini_community.common.entity.BaseTimeEntity;
 import com.example.mini_community.domain.member.Member;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.util.UUID;
@@ -56,4 +53,10 @@ public class Board extends BaseTimeEntity {
         this.content = content;
         this.image = image;
     }
+
+    public void increaseViewCount() {
+        this.view_count++;
+    }
+
+
 }
