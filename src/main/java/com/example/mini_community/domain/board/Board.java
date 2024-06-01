@@ -50,4 +50,10 @@ public class Board extends BaseTimeEntity {
         this.like_count = 0;
         this.view_count = 0;
     }
+
+    public void update(String title, String content, String image) {
+        this.title = title;
+        this.content = content;
+        this.image = image;
+    }
 }

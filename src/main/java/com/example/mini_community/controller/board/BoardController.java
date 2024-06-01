@@ -6,6 +6,7 @@ import com.example.mini_community.domain.member.Member;
 import com.example.mini_community.dto.board.AllBoardsResponse;
 import com.example.mini_community.dto.board.BoardResponse;
 import com.example.mini_community.dto.board.CreateBoardRequest;
+import com.example.mini_community.dto.board.UpdateBoardRequest;
 import com.example.mini_community.service.board.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,10 +38,17 @@ public class BoardController {
     }
 
     @GetMapping("/{boardId}")
-    public CustomResponse findById(@PathVariable UUID boardId, @Login Member member) {
+    public CustomResponse findById(@PathVariable("boardId") UUID boardId, @Login Member member) {
         BoardResponse board = boardService.findById(boardId);
 
         return CustomResponse.response(HttpStatus.OK, "게시물을 정상적으로 조회했습니다.", board);
+    }
+
+    @PutMapping("/{boardId}")
+    public CustomResponse editBoard(@PathVariable("boardId") UUID boardId, @Validated @RequestBody UpdateBoardRequest req, @Login Member member) {
+        BoardResponse board = boardService.editBoard(boardId, req, member);
+
+        return CustomResponse.response(HttpStatus.OK, "게시물을 정상적으로 수정했습니다.", board);
     }
 
 }

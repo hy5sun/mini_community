@@ -62,4 +62,16 @@ public class BoardService {
         return boardRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(BOARD_NOT_FOUND));
     }
+
+    @Transactional
+    public BoardResponse editBoard(UUID id, UpdateBoardRequest req, Member member) {
+        Board board = this.getById(id);
+        if (board.getMember() != member) {
+            throw new BusinessException(UNAUTHORIZED_MEMBER);
+        }
+
+        board.update(req.getTitle(), req.getContent(), req.getImage());
+
+        return BoardResponse.entityToDto(board);
+    }
 }
