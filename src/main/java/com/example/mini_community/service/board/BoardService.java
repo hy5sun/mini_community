@@ -6,6 +6,7 @@ import com.example.mini_community.domain.member.Member;
 import com.example.mini_community.dto.board.AllBoardsResponse;
 import com.example.mini_community.dto.board.BoardResponse;
 import com.example.mini_community.dto.board.CreateBoardRequest;
+import com.example.mini_community.dto.board.UpdateBoardRequest;
 import com.example.mini_community.repository.board.BoardRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -52,9 +53,13 @@ public class BoardService {
 
     @Transactional
     public BoardResponse findById(UUID id) {
-        Board board = boardRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(BOARD_NOT_FOUND));
-
+        Board board = this.getById(id);
         return BoardResponse.entityToDto(board);
+    }
+
+    @Transactional
+    public Board getById(UUID id) {
+        return boardRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(BOARD_NOT_FOUND));
     }
 }
