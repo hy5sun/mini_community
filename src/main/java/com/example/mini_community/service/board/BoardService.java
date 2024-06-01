@@ -74,4 +74,16 @@ public class BoardService {
 
         return BoardResponse.entityToDto(board);
     }
+
+    @Transactional
+    public BoardResponse deleteBoard(UUID id, Member member) {
+        Board board = this.getById(id);
+
+        if(board.getMember() != member) {
+            throw new BusinessException(UNAUTHORIZED_MEMBER);
+        }
+
+        boardRepository.delete(board);
+        return BoardResponse.entityToDto(board);
+    }
 }

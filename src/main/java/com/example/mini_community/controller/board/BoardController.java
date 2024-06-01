@@ -2,6 +2,7 @@ package com.example.mini_community.controller.board;
 
 import com.example.mini_community.common.config.annotation.Login;
 import com.example.mini_community.common.response.CustomResponse;
+import com.example.mini_community.domain.board.Board;
 import com.example.mini_community.domain.member.Member;
 import com.example.mini_community.dto.board.AllBoardsResponse;
 import com.example.mini_community.dto.board.BoardResponse;
@@ -51,4 +52,10 @@ public class BoardController {
         return CustomResponse.response(HttpStatus.OK, "게시물을 정상적으로 수정했습니다.", board);
     }
 
+    @DeleteMapping("/{boardId}")
+    public CustomResponse deleteBoard(@PathVariable("boardId") UUID boardId, @Login Member member) {
+        BoardResponse board = boardService.deleteBoard(boardId, member);
+
+        return CustomResponse.response(HttpStatus.OK, "게시물이 정상적으로 삭제되었습니다.", board);
+    }
 }
