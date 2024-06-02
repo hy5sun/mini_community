@@ -2,6 +2,7 @@ package com.example.mini_community.domain.member;
 
 import com.example.mini_community.common.entity.BaseTimeEntity;
 import com.example.mini_community.domain.board.Board;
+import com.example.mini_community.domain.board.LikedBoard;
 import com.example.mini_community.domain.refreshToken.RefreshToken;
 import jakarta.persistence.*;
 import lombok.*;
@@ -41,6 +42,9 @@ public class Member extends BaseTimeEntity implements UserDetails {
 
     @OneToMany(mappedBy = "member")
     private List<Board> boards;
+
+    @OneToMany(mappedBy = "member")
+    private List<LikedBoard> likedBoards;
 
     @Builder
     public Member(String email, String nickname, String profile_img, String password) {

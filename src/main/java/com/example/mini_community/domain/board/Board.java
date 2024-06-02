@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.util.List;
 import java.util.UUID;
 
 @Table(name="board")
@@ -37,6 +38,9 @@ public class Board extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id", nullable = false)
     private Member member;
+
+    @OneToMany(mappedBy = "board")
+    private List<LikedBoard> likedBoards;
 
     @Builder
     public Board(String title, String content, Member member, String image) {
