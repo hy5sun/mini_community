@@ -26,6 +26,8 @@ public class BoardService {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
     private LikedBoardRepository likedBoardRepository;
 
     @Transactional
