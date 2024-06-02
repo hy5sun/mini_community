@@ -62,5 +62,11 @@ public class Board extends BaseTimeEntity {
         this.view_count++;
     }
 
+    public void increaseLikeCount() {
+        this.like_count++;
+    }
 
+    public void decreaseLikeCount() {
+        this.like_count--;
+    }
 }

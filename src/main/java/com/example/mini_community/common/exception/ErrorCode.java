@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
+    // BAD_REQUEST
+    BAD_REQUEST(HttpStatus.BAD_REQUEST.value(), "Bad Request", "잘못된 요청입니다."),
     // 잘못된 값 입력 오류
     INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST.value(), "Bad Request", "올바르지 않은 입력값입니다."),
     // 잘못된 비밀번호 입력 오류
@@ -25,6 +27,8 @@ public enum ErrorCode {
     TOKEN_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "Not Found", "존재하지 않는 토큰입니다"),
     // 게시물 찾을 수 없는 오류
     BOARD_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "Not Found", "존재하지 않는 게시물입니다."),
+    // 좋아요한 게시물을 찾을 수 없는 오류
+    LIKED_BOARD_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "Not Found", "해당 게시물에 좋아요를 누르지 않았습니다."),
 
     // 닉네임 중복 오류
     DUPLICATED_NICKNAME(HttpStatus.CONFLICT.value(), "Conflict", "이미 존재하는 닉네임입니다."),
