@@ -2,19 +2,14 @@ package com.example.mini_community.controller.board;
 
 import com.example.mini_community.common.config.annotation.Login;
 import com.example.mini_community.common.response.CustomResponse;
-import com.example.mini_community.domain.board.Board;
 import com.example.mini_community.domain.member.Member;
-import com.example.mini_community.dto.board.AllBoardsResponse;
-import com.example.mini_community.dto.board.BoardResponse;
-import com.example.mini_community.dto.board.CreateBoardRequest;
-import com.example.mini_community.dto.board.UpdateBoardRequest;
+import com.example.mini_community.dto.board.*;
 import com.example.mini_community.service.board.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -32,8 +27,8 @@ public class BoardController {
     }
 
     @GetMapping()
-    public CustomResponse findAll(@Login Member member) {
-        List<AllBoardsResponse> boards = boardService.findAll();
+    public CustomResponse findAll(@Login Member member, @RequestParam(value = "page", defaultValue = "0") Integer page) {
+        BoardsWithPaginationResponse boards = boardService.findAll(page);
 
         return CustomResponse.response(HttpStatus.OK, "모든 게시물을 정상적으로 조회했습니다.", boards);
     }

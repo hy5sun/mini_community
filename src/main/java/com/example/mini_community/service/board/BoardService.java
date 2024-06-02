@@ -4,15 +4,16 @@ import com.example.mini_community.common.exception.BusinessException;
 import com.example.mini_community.domain.board.Board;
 import com.example.mini_community.domain.board.LikedBoard;
 import com.example.mini_community.domain.member.Member;
-import com.example.mini_community.dto.board.AllBoardsResponse;
-import com.example.mini_community.dto.board.BoardResponse;
-import com.example.mini_community.dto.board.CreateBoardRequest;
-import com.example.mini_community.dto.board.UpdateBoardRequest;
+import com.example.mini_community.dto.board.*;
 import com.example.mini_community.repository.board.BoardRepository;
 import com.example.mini_community.repository.board.LikedBoardRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,16 +45,16 @@ public class BoardService {
         return BoardResponse.entityToDto(board);
     }
 
-    @Transactional
-    public List<AllBoardsResponse> findAll() {
-        // TODO : 추후에 category 별로 조회하도록 할 예정
+    public BoardsWithPaginationResponse findAll(Integer page) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.by("createdAt").descending());
+        Page<Board> boards = boardRepository.findAll(pageable);
+        PaginationResponse pageInfo = PaginationResponse.entityToDto(boards);
 
-        List<AllBoardsResponse> boards = boardRepository.findAll()
-                .stream()
-                .map((Board board) -> new AllBoardsResponse(board.getId().toString(), board.getTitle(), board.getContent(), board.getImage(), board.getMember().getNickname()))
+        List<AllBoardsResponse> boardsResponse = boards.stream()
+                .map((Board board) -> new AllBoardsResponse(board.getId().toString(), board.getTitle(), board.getContent(), board.getImage(), board.getMember().getNickname(), board.getCreatedAt()))
                 .toList();
 
-        return boards;
+        return new BoardsWithPaginationResponse(boardsResponse, pageInfo);
     }
 
     @Transactional
