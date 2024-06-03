@@ -65,4 +65,11 @@ public class BoardController {
         BoardResponse board = boardService.updateLikeCount(boardId, member);
         return CustomResponse.response(HttpStatus.OK, "좋아요를 눌렀습니다.", board);
     }
+
+    @GetMapping("/search")
+    @ResponseStatus(HttpStatus.OK)
+    public CustomResponse search(@RequestParam(value = "page", defaultValue = "0") Integer page, @RequestParam("keyword") String keyword, @RequestParam("type") String type, @Login Member member) {
+        BoardsWithPaginationResponse boards = boardService.searchBoard(type, keyword, page);
+        return CustomResponse.response(HttpStatus.OK, "검색을 성공했습니다.", boards);
+    }
 }

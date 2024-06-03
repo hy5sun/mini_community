@@ -1,6 +1,7 @@
 package com.example.mini_community.service.board;
 
 import com.example.mini_community.common.exception.BusinessException;
+import com.example.mini_community.common.type.SearchType;
 import com.example.mini_community.domain.board.Board;
 import com.example.mini_community.domain.board.LikedBoard;
 import com.example.mini_community.domain.member.Member;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.example.mini_community.common.exception.ErrorCode.*;
+import static com.example.mini_community.common.type.SearchType.fromSearchType;
 
 @Service
 @RequiredArgsConstructor
@@ -49,14 +51,49 @@ public class BoardService {
 
     @Transactional
     public BoardsWithPaginationResponse findAll(Integer page) {
-        Page<Board> boards = makePagination(page);
+        Pageable pageable = makePageable(page);
+        Page<Board> boards = findAllWithPageable(pageable);
         PaginationDto pageInfo = PaginationDto.entityToDto(boards);
+        List<AllBoardsDto> boardsResponse = getAllBoards(boards);
+        return new BoardsWithPaginationResponse(boardsResponse, pageInfo);
+    }
 
-        List<AllBoardsDto> boardsResponse = boards.stream()
+    @Transactional
+    public BoardsWithPaginationResponse searchBoard(String type, String keyword, Integer page) {
+        Pageable pageable = makePageable(page);
+        Page<Board> boards = findByType(type, keyword, pageable);
+        PaginationDto pageInfo = PaginationDto.entityToDto(boards);
+        List<AllBoardsDto> boardsResponse = getAllBoards(boards);
+        return new BoardsWithPaginationResponse(boardsResponse, pageInfo);
+    }
+
+    private Page<Board> findByType(String type, String keyword, Pageable pageable) {
+        SearchType searchType = fromSearchType(type);
+
+        switch (searchType) {
+            case TITLE:
+                return boardRepository.findByTitleContaining(keyword, pageable);
+            case CONTENT:
+                return boardRepository.findByContentContaining(keyword, pageable);
+            case WRITER:
+                return boardRepository.findByMemberNicknameContaining(keyword, pageable);
+            default:
+                throw new BusinessException(WRONG_SEARCH_TYPE);
+        }
+    }
+
+    private Pageable makePageable(Integer page) {
+        return PageRequest.of(page, PAGE_SIZE, Sort.by("createdAt").descending());
+    }
+
+    private Page<Board> findAllWithPageable(Pageable pageable) {
+        return boardRepository.findAll(pageable);
+    }
+
+    private List<AllBoardsDto> getAllBoards(Page<Board> boards) {
+        return boards.stream()
                 .map(AllBoardsDto::fromEntity)
                 .toList();
-
-        return new BoardsWithPaginationResponse(boardsResponse, pageInfo);
     }
 
     @Transactional
@@ -97,11 +134,6 @@ public class BoardService {
         }
 
         return BoardResponse.entityToDto(board);
-    }
-
-    private Page<Board> makePagination(Integer page) {
-        Pageable pageable = PageRequest.of(page, PAGE_SIZE, Sort.by("createdAt").descending());
-        return boardRepository.findAll(pageable);
     }
 
     public void increaseLikeCount(Board board, Member member) {
