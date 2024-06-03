@@ -31,6 +31,8 @@ public class BoardService {
     @Autowired
     private LikedBoardRepository likedBoardRepository;
 
+    private static final int PAGE_SIZE = 10;
+
     @Transactional
     public BoardResponse createBoard(Member member, CreateBoardRequest req) {
         Board board = Board.builder()
@@ -45,13 +47,13 @@ public class BoardService {
         return BoardResponse.entityToDto(board);
     }
 
+    @Transactional
     public BoardsWithPaginationResponse findAll(Integer page) {
-        Pageable pageable = PageRequest.of(page, 10, Sort.by("createdAt").descending());
-        Page<Board> boards = boardRepository.findAll(pageable);
-        PaginationResponse pageInfo = PaginationResponse.entityToDto(boards);
+        Page<Board> boards = makePagination(page);
+        PaginationDto pageInfo = PaginationDto.entityToDto(boards);
 
-        List<AllBoardsResponse> boardsResponse = boards.stream()
-                .map((Board board) -> new AllBoardsResponse(board.getId().toString(), board.getTitle(), board.getContent(), board.getImage(), board.getMember().getNickname(), board.getCreatedAt()))
+        List<AllBoardsDto> boardsResponse = boards.stream()
+                .map(AllBoardsDto::fromEntity)
                 .toList();
 
         return new BoardsWithPaginationResponse(boardsResponse, pageInfo);
@@ -95,6 +97,11 @@ public class BoardService {
         }
 
         return BoardResponse.entityToDto(board);
+    }
+
+    private Page<Board> makePagination(Integer page) {
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE, Sort.by("createdAt").descending());
+        return boardRepository.findAll(pageable);
     }
 
     public void increaseLikeCount(Board board, Member member) {

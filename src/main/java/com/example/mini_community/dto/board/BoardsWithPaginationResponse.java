@@ -8,10 +8,10 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class BoardsWithPaginationResponse {
-    private List<AllBoardsResponse> boards;
-    private PaginationResponse pageInfo;
+    private List<AllBoardsDto> boards;
+    private PaginationDto pageInfo;
 
-    public static BoardsWithPaginationResponse entityToDto(List<AllBoardsResponse> boards, PaginationResponse pagination) {
+    public static BoardsWithPaginationResponse entityToDto(List<AllBoardsDto> boards, PaginationDto pagination) {
         return new BoardsWithPaginationResponse(boards, pagination);
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 
 @Getter
 @AllArgsConstructor
-public class PaginationResponse {
+public class PaginationDto {
     private Integer page;
     private Integer size;
     private Integer totalPages;
@@ -15,7 +15,7 @@ public class PaginationResponse {
     private Boolean hasPrevious;
     private Boolean hasNext;
 
-    public static PaginationResponse entityToDto(Page<Board> boards) {
-        return new PaginationResponse(boards.getNumber(), boards.getSize(), boards.getTotalPages(), boards.getTotalElements(), boards.hasPrevious(), boards.hasNext());
+    public static PaginationDto entityToDto(Page<Board> boards) {
+        return new PaginationDto(boards.getNumber(), boards.getSize(), boards.getTotalPages(), boards.getTotalElements(), boards.hasPrevious(), boards.hasNext());
     }
 }
