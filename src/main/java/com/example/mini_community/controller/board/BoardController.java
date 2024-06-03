@@ -20,6 +20,7 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
     public CustomResponse create(@Validated @RequestBody CreateBoardRequest req, @Login Member member) {
         BoardResponse board = boardService.createBoard(member, req);
 
@@ -27,6 +28,7 @@ public class BoardController {
     }
 
     @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
     public CustomResponse findAll(@Login Member member, @RequestParam(value = "page", defaultValue = "0") Integer page) {
         BoardsWithPaginationResponse boards = boardService.findAll(page);
 
@@ -34,6 +36,7 @@ public class BoardController {
     }
 
     @GetMapping("/{boardId}")
+    @ResponseStatus(HttpStatus.OK)
     public CustomResponse findById(@PathVariable("boardId") UUID boardId, @Login Member member) {
         BoardResponse board = boardService.findById(boardId, member);
 
@@ -41,6 +44,7 @@ public class BoardController {
     }
 
     @PutMapping("/{boardId}")
+    @ResponseStatus(HttpStatus.OK)
     public CustomResponse editBoard(@PathVariable("boardId") UUID boardId, @Validated @RequestBody UpdateBoardRequest req, @Login Member member) {
         BoardResponse board = boardService.editBoard(boardId, req, member);
 
@@ -48,6 +52,7 @@ public class BoardController {
     }
 
     @DeleteMapping("/{boardId}")
+    @ResponseStatus(HttpStatus.OK)
     public CustomResponse deleteBoard(@PathVariable("boardId") UUID boardId, @Login Member member) {
         BoardResponse board = boardService.deleteBoard(boardId, member);
 
@@ -55,6 +60,7 @@ public class BoardController {
     }
 
     @PostMapping("/{boardId}")
+    @ResponseStatus(HttpStatus.OK)
     public CustomResponse increaseLike(@PathVariable("boardId") UUID boardId, @Login Member member) {
         BoardResponse board = boardService.updateLikeCount(boardId, member);
         return CustomResponse.response(HttpStatus.OK, "좋아요를 눌렀습니다.", board);
