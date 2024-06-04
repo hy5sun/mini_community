@@ -53,18 +53,14 @@ public class BoardService {
     public BoardsWithPaginationResponse findAll(Integer page) {
         Pageable pageable = makePageable(page);
         Page<Board> boards = findAllWithPageable(pageable);
-        PaginationDto pageInfo = PaginationDto.entityToDto(boards);
-        List<AllBoardsDto> boardsResponse = getAllBoards(boards);
-        return new BoardsWithPaginationResponse(boardsResponse, pageInfo);
+        return makeAllBoardsResponse(boards);
     }
 
     @Transactional
     public BoardsWithPaginationResponse searchBoard(String type, String keyword, Integer page) {
         Pageable pageable = makePageable(page);
         Page<Board> boards = findByType(type, keyword, pageable);
-        PaginationDto pageInfo = PaginationDto.entityToDto(boards);
-        List<AllBoardsDto> boardsResponse = getAllBoards(boards);
-        return new BoardsWithPaginationResponse(boardsResponse, pageInfo);
+        return makeAllBoardsResponse(boards);
     }
 
     private Page<Board> findByType(String type, String keyword, Pageable pageable) {
@@ -90,10 +86,14 @@ public class BoardService {
         return boardRepository.findAll(pageable);
     }
 
-    private List<AllBoardsDto> getAllBoards(Page<Board> boards) {
-        return boards.stream()
+    private BoardsWithPaginationResponse makeAllBoardsResponse(Page<Board> boards) {
+        PaginationDto pageInfo = PaginationDto.entityToDto(boards);
+
+        List<AllBoardsDto> boardsResponse = boards.stream()
                 .map(AllBoardsDto::fromEntity)
                 .toList();
+
+        return new BoardsWithPaginationResponse(boardsResponse, pageInfo);
     }
 
     @Transactional
