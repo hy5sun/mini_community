@@ -15,6 +15,8 @@ public enum ErrorCode {
     WRONG_PASSWORD(HttpStatus.BAD_REQUEST.value(), "Bad Request", "비밀번호가 일치하지 않습니다."),
     // 검색 Type에 속하지 않는 오류
     WRONG_SEARCH_TYPE(HttpStatus.BAD_REQUEST.value(), "Bad Request", "검색 타입은 TITLE, CONTENT, WRITER만 가능합니다."),
+    // 파일 업로드 오류
+    FILE_UPLOAD_FAILED(HttpStatus.BAD_REQUEST.value(), "Bad Request", "파일 업로드에 실패했습니다."),
 
     // 만료된 토큰 오류
     EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED.value(), "Unauthorized", "유효하지 않은 토큰입니다."),
@@ -31,6 +33,8 @@ public enum ErrorCode {
     BOARD_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "Not Found", "존재하지 않는 게시물입니다."),
     // 좋아요한 게시물을 찾을 수 없는 오류
     LIKED_BOARD_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "Not Found", "해당 게시물에 좋아요를 누르지 않았습니다."),
+    // 댓글을 찾을 수 없는 오류
+    COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "Not Found", "댓글을 찾을 수 없습니다."),
 
     // 닉네임 중복 오류
     DUPLICATED_NICKNAME(HttpStatus.CONFLICT.value(), "Conflict", "이미 존재하는 닉네임입니다."),
