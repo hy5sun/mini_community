@@ -12,11 +12,17 @@ public class AllBoardsDto {
     private String id;
     private String title;
     private String content;
-    private String image;
+    private String thumbnail;
     private String writer;
     private LocalDateTime createdAt;
 
     public static AllBoardsDto fromEntity(Board board) {
-        return new AllBoardsDto(board.getId().toString(), board.getTitle(), board.getContent(), board.getImage(), board.getMember().getNickname(), board.getCreatedAt());
+        return new AllBoardsDto(
+                board.getId().toString(),
+                board.getTitle(),
+                board.getContent(),
+                board.getImages().get(0).getImageUrl(),
+                board.getMember().getNickname(),
+                board.getCreatedAt());
     }
 }
