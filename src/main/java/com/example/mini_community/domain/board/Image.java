@@ -40,4 +40,9 @@ public class Image extends BaseTimeEntity {
         this.savedName = savedName;
         this.imageUrl = imageUrl;
     }
+
+    @Builder(builderMethodName = "setBoardBuilder")
+    public Image(Board board) {
+        this.board = board;
+    }
 }

@@ -110,11 +110,28 @@ public class BoardService {
     }
 
     @Transactional
-    public BoardResponse editBoard(UUID id, UpdateBoardRequest req, Member member) {
+    public BoardResponse editBoard(UUID id, UpdateBoardRequest req, List<MultipartFile> files, Member member) {
         Board board = this.getById(id);
         validateAuthor(board, member);
-        board.update(req.getTitle(), req.getContent(), req.getImage());
+
+        deleteImagesByBoard(board);
+
+        List<Image> newImages = s3Service.uploadFiles(files);
+        newImages.stream().map(image -> image.setBoardBuilder().board(board));
+        imageRepository.saveAll(newImages);
+
+        board.update(req.getTitle(), req.getContent(), newImages);
         return BoardResponse.entityToDto(board);
+    }
+
+    private void deleteImagesByBoard(Board board) {
+        imageRepository.deleteByBoard(board);
+
+        List<Image> existingImages = imageRepository.findByBoard(board)
+                .orElse(null);
+        if (existingImages != null) {
+            existingImages.stream().map(Image::getSavedName).forEach(s3Service::deleteFile);
+        }
     }
 
     @Transactional

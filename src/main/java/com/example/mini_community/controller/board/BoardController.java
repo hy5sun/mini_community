@@ -47,8 +47,8 @@ public class BoardController {
 
     @PutMapping("/{boardId}")
     @ResponseStatus(HttpStatus.OK)
-    public CustomResponse editBoard(@PathVariable("boardId") UUID boardId, @Validated @RequestBody UpdateBoardRequest req, @Login Member member) {
-        BoardResponse board = boardService.editBoard(boardId, req, member);
+    public CustomResponse editBoard(@PathVariable("boardId") UUID boardId, @Validated @RequestPart("board") UpdateBoardRequest req, @RequestPart(value = "files") List<MultipartFile> files, @Login Member member) {
+        BoardResponse board = boardService.editBoard(boardId, req, files, member);
 
         return CustomResponse.response(HttpStatus.OK, "게시물을 정상적으로 수정했습니다.", board);
     }
