@@ -19,8 +19,4 @@ public class CreateBoardRequest {
 
     @NotBlank(message = "내용을 입력하지 않았습니다.")
     private String content;
-
-    @NotBlank(message = "이미지를 삽입하지 않았습니다.")
-    private String image;
-
 }

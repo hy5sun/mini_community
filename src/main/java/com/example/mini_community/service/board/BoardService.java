@@ -3,19 +3,22 @@ package com.example.mini_community.service.board;
 import com.example.mini_community.common.exception.BusinessException;
 import com.example.mini_community.common.type.SearchType;
 import com.example.mini_community.domain.board.Board;
+import com.example.mini_community.domain.board.Image;
 import com.example.mini_community.domain.board.LikedBoard;
 import com.example.mini_community.domain.member.Member;
 import com.example.mini_community.dto.board.*;
 import com.example.mini_community.repository.board.BoardRepository;
+import com.example.mini_community.repository.board.ImageRepository;
 import com.example.mini_community.repository.board.LikedBoardRepository;
+import com.example.mini_community.service.S3.S3Service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -26,25 +29,28 @@ import static com.example.mini_community.common.type.SearchType.fromSearchType;
 @Service
 @RequiredArgsConstructor
 public class BoardService {
-
-    @Autowired
-    private BoardRepository boardRepository;
-
-    @Autowired
-    private LikedBoardRepository likedBoardRepository;
+    private final BoardRepository boardRepository;
+    private final LikedBoardRepository likedBoardRepository;
+    private final ImageRepository imageRepository;
+    private final S3Service s3Service;
 
     private static final int PAGE_SIZE = 10;
 
     @Transactional
-    public BoardResponse createBoard(Member member, CreateBoardRequest req) {
+    public BoardResponse createBoard(Member member, CreateBoardRequest req, List<MultipartFile> files) {
+        List<Image> images = s3Service.uploadFiles(files);
+
         Board board = Board.builder()
                 .title(req.getTitle())
                 .content(req.getContent())
-                .image(req.getImage())
+                .images(images)
                 .member(member)
                 .build();
 
         boardRepository.save(board);
+
+        images.stream().map(image -> image.setBoardBuilder().board(board));
+        imageRepository.saveAll(images);
 
         return BoardResponse.entityToDto(board);
     }

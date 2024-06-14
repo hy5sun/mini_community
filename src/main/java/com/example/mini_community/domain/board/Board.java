@@ -1,5 +1,6 @@
 package com.example.mini_community.domain.board;
 
+import com.example.mini_community.comment.domain.Comment;
 import com.example.mini_community.common.entity.BaseTimeEntity;
 import com.example.mini_community.domain.member.Member;
 import jakarta.persistence.*;
@@ -24,8 +25,8 @@ public class Board extends BaseTimeEntity {
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
-    private String image;
+    @OneToMany(mappedBy = "board")
+    private List<Image> images;
 
     @ColumnDefault("0")
     @Column(nullable = false)
@@ -39,23 +40,23 @@ public class Board extends BaseTimeEntity {
     @JoinColumn(name="member_id", nullable = false)
     private Member member;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private List<LikedBoard> likedBoards;
 
     @Builder
-    public Board(String title, String content, Member member, String image) {
+    public Board(String title, String content, List<Image> images, Member member) {
         this.title = title;
         this.content = content;
         this.member = member;
-        this.image = image;
+        this.images = images;
         this.like_count = 0;
         this.view_count = 0;
     }
 
-    public void update(String title, String content, String image) {
+    public void update(String title, String content, List<Image> images) {
         this.title = title;
         this.content = content;
-        this.image = image;
+        this.images = images;
     }
 
     public void increaseViewCount() {
