@@ -17,6 +17,8 @@ public enum ErrorCode {
     WRONG_SEARCH_TYPE(HttpStatus.BAD_REQUEST.value(), "Bad Request", "검색 타입은 TITLE, CONTENT, WRITER만 가능합니다."),
     // 파일 업로드 오류
     FILE_UPLOAD_FAILED(HttpStatus.BAD_REQUEST.value(), "Bad Request", "파일 업로드에 실패했습니다."),
+    // 올릴 수 있는 파일 개수 제한
+    TOO_MANY_FILES(HttpStatus.BAD_REQUEST.value(), "Bad Request", "올릴 수 있는 최대 파일 수는 10개입니다."),
 
     // 만료된 토큰 오류
     EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED.value(), "Unauthorized", "유효하지 않은 토큰입니다."),
