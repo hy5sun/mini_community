@@ -49,7 +49,7 @@ public class BoardService {
 
         boardRepository.save(board);
 
-        images.stream().map(image -> image.setBoardBuilder().board(board));
+        images.stream().forEach(image -> image.setBoard(board));
         imageRepository.saveAll(images);
 
         return BoardResponse.entityToDto(board);
@@ -117,7 +117,7 @@ public class BoardService {
         deleteImagesByBoard(board);
 
         List<Image> newImages = s3Service.uploadFiles(files);
-        newImages.stream().map(image -> image.setBoardBuilder().board(board));
+        newImages.stream().forEach(image -> image.setBoard(board));
         imageRepository.saveAll(newImages);
 
         board.update(req.getTitle(), req.getContent(), newImages);
