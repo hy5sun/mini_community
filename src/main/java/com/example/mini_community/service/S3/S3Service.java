@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.example.mini_community.common.exception.BusinessException;
 import com.example.mini_community.domain.board.Image;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +20,7 @@ import static com.example.mini_community.common.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class S3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -66,6 +68,7 @@ public class S3Service {
 
             amazonS3Client.putObject(folderDir, savedName, file.getInputStream(), metadata);
 
+            log.info("파일 업로드 성공: " + fileUrl);
             return builderImage(originalName, savedName, fileUrl);
         } catch (IOException e) {
             throw new BusinessException(FILE_UPLOAD_FAILED);
@@ -73,6 +76,7 @@ public class S3Service {
     }
 
     public void deleteFile(String fileName) {
+        log.info("파일 삭제: " + fileName);
         amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, fileName));
     }
 

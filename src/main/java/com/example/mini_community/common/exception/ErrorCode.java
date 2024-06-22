@@ -35,6 +35,8 @@ public enum ErrorCode {
     BOARD_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "Not Found", "존재하지 않는 게시물입니다."),
     // 좋아요한 게시물을 찾을 수 없는 오류
     LIKED_BOARD_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "Not Found", "해당 게시물에 좋아요를 누르지 않았습니다."),
+    // 이미지를 찾을 수 없는 오류
+    IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "Not Found", "이미지를 찾을 수 없습니다."),
     // 댓글을 찾을 수 없는 오류
     COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "Not Found", "댓글을 찾을 수 없습니다."),
 

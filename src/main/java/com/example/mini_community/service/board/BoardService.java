@@ -125,13 +125,11 @@ public class BoardService {
     }
 
     private void deleteImagesByBoard(Board board) {
-        imageRepository.deleteByBoard(board);
-
         List<Image> existingImages = imageRepository.findByBoard(board)
-                .orElse(null);
-        if (existingImages != null) {
-            existingImages.stream().map(Image::getSavedName).forEach(s3Service::deleteFile);
-        }
+                .orElseThrow(() -> new BusinessException(IMAGE_NOT_FOUND));
+
+        imageRepository.deleteByBoard(board);
+        existingImages.stream().map(Image::getSavedName).forEach(s3Service::deleteFile);
     }
 
     @Transactional
