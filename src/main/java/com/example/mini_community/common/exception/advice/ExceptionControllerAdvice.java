@@ -14,6 +14,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.MultipartException;
 
 import java.nio.file.AccessDeniedException;
 
@@ -82,6 +83,16 @@ public class ExceptionControllerAdvice {
         log.error("handleExpiredJwtException", e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.EXPIRED_TOKEN);
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    /**
+     * multipartFile 업로드에 문제가 생겼을 경우 발생
+     */
+    @ExceptionHandler(MultipartException.class)
+    public ResponseEntity<ErrorResponse> handleMultipartException(MultipartException e) {
+        log.error("MultipartException: ", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.FILE_UPLOAD_FAILED);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     /**
