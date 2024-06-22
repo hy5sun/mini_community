@@ -1,6 +1,6 @@
 package com.example.mini_community.common.config.argumentResolver;
 
-import com.example.mini_community.common.config.annotation.Login;
+import com.example.mini_community.common.annotation.Login;
 import com.example.mini_community.common.exception.BusinessException;
 import com.example.mini_community.common.exception.ErrorCode;
 import com.example.mini_community.domain.member.Member;

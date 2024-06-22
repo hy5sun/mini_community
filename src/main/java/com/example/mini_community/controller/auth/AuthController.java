@@ -1,6 +1,6 @@
 package com.example.mini_community.controller.auth;
 
-import com.example.mini_community.common.config.annotation.Login;
+import com.example.mini_community.common.annotation.Login;
 import com.example.mini_community.common.response.CustomResponse;
 import com.example.mini_community.domain.member.Member;
 import com.example.mini_community.dto.auth.*;
