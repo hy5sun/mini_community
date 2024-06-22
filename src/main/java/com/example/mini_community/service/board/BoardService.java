@@ -58,7 +58,21 @@ public class BoardService {
     @Transactional
     public BoardsWithPaginationResponse findAll(Integer page) {
         Pageable pageable = makePageable(page);
-        Page<Board> boards = findAllWithPageable(pageable);
+        Page<Board> boards = boardRepository.findAll(pageable);
+        return makeAllBoardsResponse(boards);
+    }
+
+    @Transactional
+    public BoardsWithPaginationResponse findBoardByMember(Member member, Integer page) {
+        Pageable pageable = makePageable(page);
+        Page<Board> boards = boardRepository.findByMember(member, pageable);
+        return makeAllBoardsResponse(boards);
+    }
+
+    @Transactional
+    public BoardsWithPaginationResponse findLikedBoardByMember(Member member, Integer page) {
+        Pageable pageable = makePageable(page);
+        Page<Board> boards = likedBoardRepository.findByMember(member, pageable).map(LikedBoard::getBoard);
         return makeAllBoardsResponse(boards);
     }
 
@@ -86,10 +100,6 @@ public class BoardService {
 
     private Pageable makePageable(Integer page) {
         return PageRequest.of(page, PAGE_SIZE, Sort.by("createdAt").descending());
-    }
-
-    private Page<Board> findAllWithPageable(Pageable pageable) {
-        return boardRepository.findAll(pageable);
     }
 
     private BoardsWithPaginationResponse makeAllBoardsResponse(Page<Board> boards) {
@@ -139,6 +149,7 @@ public class BoardService {
         deleteImagesByBoard(board);
         boardRepository.delete(board);
     }
+
 
     @Transactional
     public BoardLikeResponse updateLikeCount(UUID id, Member member) {
