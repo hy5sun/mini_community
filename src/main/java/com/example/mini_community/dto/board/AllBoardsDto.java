@@ -16,6 +16,7 @@ public class AllBoardsDto {
     private String writer;
     private Integer viewCount;
     private Integer likeCount;
+    private Integer commentCount;
     private LocalDateTime createdAt;
 
     public static AllBoardsDto fromEntity(Board board) {
@@ -27,6 +28,7 @@ public class AllBoardsDto {
                 board.getMember().getNickname(),
                 board.getView_count(),
                 board.getLike_count(),
+                board.getComments().size(),
                 board.getCreatedAt());
     }
 }

@@ -1,7 +1,7 @@
 package com.example.mini_community.domain.board;
 
-import com.example.mini_community.comment.domain.Comment;
 import com.example.mini_community.common.entity.BaseTimeEntity;
+import com.example.mini_community.domain.comment.Comment;
 import com.example.mini_community.domain.member.Member;
 import jakarta.persistence.*;
 import lombok.*;
@@ -45,6 +45,9 @@ public class Board extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private List<LikedBoard> likedBoards;
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+    private List<Comment> comments;
 
     @Builder
     public Board(String title, String content, List<Image> images, Member member) {
