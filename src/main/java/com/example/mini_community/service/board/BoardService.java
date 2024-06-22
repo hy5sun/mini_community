@@ -133,12 +133,11 @@ public class BoardService {
     }
 
     @Transactional
-    public BoardResponse deleteBoard(UUID id, Member member) {
+    public void deleteBoard(UUID id, Member member) {
         Board board = getById(id);
         validateAuthor(board, member);
         deleteImagesByBoard(board);
         boardRepository.delete(board);
-        return BoardResponse.entityToDto(board, isLiked(board, member));
     }
 
     @Transactional

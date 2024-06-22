@@ -25,7 +25,6 @@ public class BoardController {
     @ResponseStatus(HttpStatus.CREATED)
     public CustomResponse create(@Validated @RequestPart("board") CreateBoardRequest req, @RequestPart(value = "files") List<MultipartFile> files, @Login Member member) {
         BoardResponse board = boardService.createBoard(member, req, files);
-
         return CustomResponse.response(HttpStatus.CREATED, "게시물을 정상적으로 작성했습니다.", board);
     }
 
@@ -33,7 +32,6 @@ public class BoardController {
     @ResponseStatus(HttpStatus.OK)
     public CustomResponse findAll(@Login Member member, @RequestParam(value = "page", defaultValue = "0") Integer page) {
         BoardsWithPaginationResponse boards = boardService.findAll(page);
-
         return CustomResponse.response(HttpStatus.OK, "모든 게시물을 정상적으로 조회했습니다.", boards);
     }
 
@@ -41,7 +39,6 @@ public class BoardController {
     @ResponseStatus(HttpStatus.OK)
     public CustomResponse findById(@PathVariable("boardId") UUID boardId, @Login Member member) {
         BoardResponse board = boardService.findById(boardId, member);
-
         return CustomResponse.response(HttpStatus.OK, "게시물을 정상적으로 조회했습니다.", board);
     }
 
@@ -49,16 +46,14 @@ public class BoardController {
     @ResponseStatus(HttpStatus.OK)
     public CustomResponse editBoard(@PathVariable("boardId") UUID boardId, @Validated @RequestPart("board") UpdateBoardRequest req, @RequestPart(value = "files") List<MultipartFile> files, @Login Member member) {
         BoardResponse board = boardService.editBoard(boardId, req, files, member);
-
         return CustomResponse.response(HttpStatus.OK, "게시물을 정상적으로 수정했습니다.", board);
     }
 
     @DeleteMapping("/{boardId}")
     @ResponseStatus(HttpStatus.OK)
     public CustomResponse deleteBoard(@PathVariable("boardId") UUID boardId, @Login Member member) {
-        BoardResponse board = boardService.deleteBoard(boardId, member);
-
-        return CustomResponse.response(HttpStatus.OK, "게시물이 정상적으로 삭제되었습니다.", board);
+        boardService.deleteBoard(boardId, member);
+        return CustomResponse.response(HttpStatus.OK, "게시물이 정상적으로 삭제되었습니다.");
     }
 
     @PostMapping("/{boardId}/like")
