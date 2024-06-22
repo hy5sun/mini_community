@@ -61,10 +61,10 @@ public class BoardController {
         return CustomResponse.response(HttpStatus.OK, "게시물이 정상적으로 삭제되었습니다.", board);
     }
 
-    @PostMapping("/{boardId}")
+    @PostMapping("/{boardId}/like")
     @ResponseStatus(HttpStatus.OK)
     public CustomResponse increaseLike(@PathVariable("boardId") UUID boardId, @Login Member member) {
-        BoardResponse board = boardService.updateLikeCount(boardId, member);
+        BoardLikeResponse board = boardService.updateLikeCount(boardId, member);
         return CustomResponse.response(HttpStatus.OK, "좋아요를 눌렀습니다.", board);
     }
 

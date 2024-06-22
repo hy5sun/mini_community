@@ -17,16 +17,18 @@ public class BoardResponse {
     private String content;
     private List<String> imageUrl;
     private String writer;
-    private Integer view_count;
-    private Integer like_count;
+    private Integer viewCount;
+    private Integer likeCount;
+    private Boolean isLike;
 
-    public static BoardResponse entityToDto(Board board) {
+    public static BoardResponse entityToDto(Board board, Boolean isLike) {
         return new BoardResponse(board.getId(),
                 board.getTitle(),
                 board.getContent(),
                 board.getImages().stream().map(Image::getImageUrl).collect(Collectors.toList()),
                 board.getMember().getNickname(),
                 board.getView_count(),
-                board.getLike_count());
+                board.getLike_count(),
+                isLike);
     }
 }

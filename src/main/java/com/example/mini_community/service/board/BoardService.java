@@ -52,7 +52,7 @@ public class BoardService {
         images.stream().forEach(image -> image.setBoard(board));
         imageRepository.saveAll(images);
 
-        return BoardResponse.entityToDto(board);
+        return BoardResponse.entityToDto(board, isLiked(board, member));
     }
 
     @Transactional
@@ -106,7 +106,7 @@ public class BoardService {
     public BoardResponse findById(UUID id, Member member) {
         Board board = getById(id);
         increaseViewCount(board, member);
-        return BoardResponse.entityToDto(board);
+        return BoardResponse.entityToDto(board, isLiked(board, member));
     }
 
     @Transactional
@@ -121,7 +121,7 @@ public class BoardService {
         imageRepository.saveAll(newImages);
 
         board.update(req.getTitle(), req.getContent(), newImages);
-        return BoardResponse.entityToDto(board);
+        return BoardResponse.entityToDto(board, isLiked(board, member));
     }
 
     private void deleteImagesByBoard(Board board) {
@@ -138,11 +138,11 @@ public class BoardService {
         validateAuthor(board, member);
         deleteImagesByBoard(board);
         boardRepository.delete(board);
-        return BoardResponse.entityToDto(board);
+        return BoardResponse.entityToDto(board, isLiked(board, member));
     }
 
     @Transactional
-    public BoardResponse updateLikeCount(UUID id, Member member) {
+    public BoardLikeResponse updateLikeCount(UUID id, Member member) {
         Board board = getById(id);
 
         if (isAuthor(board, member)) {
@@ -155,7 +155,7 @@ public class BoardService {
             decreaseLikeCount(board, member);
         }
 
-        return BoardResponse.entityToDto(board);
+        return BoardLikeResponse.entityToDto(board);
     }
 
     public void increaseLikeCount(Board board, Member member) {

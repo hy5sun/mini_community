@@ -39,7 +39,8 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher("/auth/token"),
                                 new AntPathRequestMatcher("/user"),
                                 new AntPathRequestMatcher("/boards"),
-                                new AntPathRequestMatcher("/boards/*")
+                                new AntPathRequestMatcher("/boards/*"),
+                                new AntPathRequestMatcher("/boards/*/like")
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
