@@ -5,23 +5,23 @@ import com.example.mini_community.common.type.SearchType;
 import com.example.mini_community.domain.board.Board;
 import com.example.mini_community.domain.board.Image;
 import com.example.mini_community.domain.board.LikedBoard;
+import com.example.mini_community.domain.comment.Comment;
 import com.example.mini_community.domain.member.Member;
 import com.example.mini_community.dto.board.*;
 import com.example.mini_community.repository.board.BoardRepository;
 import com.example.mini_community.repository.board.ImageRepository;
 import com.example.mini_community.repository.board.LikedBoardRepository;
+import com.example.mini_community.repository.comment.CommentRepository;
 import com.example.mini_community.service.S3.S3Service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.example.mini_community.common.exception.ErrorCode.*;
 import static com.example.mini_community.common.type.SearchType.fromSearchType;
@@ -32,6 +32,7 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final LikedBoardRepository likedBoardRepository;
     private final ImageRepository imageRepository;
+    private final CommentRepository commentRepository;
     private final S3Service s3Service;
 
     private static final int PAGE_SIZE = 10;
@@ -74,6 +75,14 @@ public class BoardService {
         Pageable pageable = makePageable(page);
         Page<Board> boards = likedBoardRepository.findByMember(member, pageable).map(LikedBoard::getBoard);
         return makeAllBoardsResponse(boards);
+    }
+
+    @Transactional
+    public BoardsWithPaginationResponse findCommentBoardByMember(Member member, Integer page) {
+        Pageable pageable = makePageable(page);
+        List<Board> distinctBoards = commentRepository.findByMember(member, pageable).map(Comment::getBoard).stream().distinct().collect(Collectors.toList());
+        Page<Board> commentBoardsPage = new PageImpl<>(distinctBoards, pageable, distinctBoards.size());
+        return makeAllBoardsResponse(commentBoardsPage);
     }
 
     @Transactional

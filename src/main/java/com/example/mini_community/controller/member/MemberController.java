@@ -20,16 +20,22 @@ public class MemberController {
     private final MemberService memberService;
     @GetMapping("/boards")
     @ResponseStatus(HttpStatus.OK)
-    public CustomResponse findMyBoard(@Login Member member, @RequestParam(value = "page", defaultValue = "0") Integer page) {
+    public CustomResponse findMyBoards(@Login Member member, @RequestParam(value = "page", defaultValue = "0") Integer page) {
         BoardsWithPaginationResponse boards = memberService.findBoardByMember(member, page);
         return CustomResponse.response(HttpStatus.OK, "내가 작성한 게시물을 정상적으로 조회했습니다.", boards);
     }
 
     @GetMapping("/liked")
     @ResponseStatus(HttpStatus.OK)
-    public CustomResponse findMyLikedBoard(@Login Member member, @RequestParam(value = "page", defaultValue = "0") Integer page) {
+    public CustomResponse findMyLikedBoards(@Login Member member, @RequestParam(value = "page", defaultValue = "0") Integer page) {
         BoardsWithPaginationResponse boards = memberService.findLikedBoardByMember(member, page);
         return CustomResponse.response(HttpStatus.OK, "내가 좋아요한 게시물을 정상적으로 조회했습니다.", boards);
     }
 
+    @GetMapping("/comments")
+    @ResponseStatus(HttpStatus.OK)
+    public CustomResponse findMyCommentBoards(@Login Member member, @RequestParam(value = "page", defaultValue = "0") Integer page) {
+        BoardsWithPaginationResponse boards = memberService.findCommentBoardByMember(member, page);
+        return CustomResponse.response(HttpStatus.OK, "내가 작성한 댓글이 포함된 게시물을 정상적으로 조회했습니다.", boards);
+    }
 }

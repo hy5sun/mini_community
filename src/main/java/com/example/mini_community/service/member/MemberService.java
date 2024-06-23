@@ -42,4 +42,9 @@ public class MemberService {
     public BoardsWithPaginationResponse findLikedBoardByMember(Member member, Integer page) {
         return boardService.findLikedBoardByMember(member, page);
     }
+
+    @Transactional
+    public BoardsWithPaginationResponse findCommentBoardByMember(Member member, Integer page) {
+        return boardService.findCommentBoardByMember(member, page);
+    }
 }
