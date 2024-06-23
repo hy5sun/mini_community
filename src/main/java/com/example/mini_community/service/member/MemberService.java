@@ -3,6 +3,7 @@ package com.example.mini_community.service.member;
 import com.example.mini_community.common.exception.BusinessException;
 import com.example.mini_community.domain.member.Member;
 import com.example.mini_community.dto.board.BoardsWithPaginationResponse;
+import com.example.mini_community.dto.member.MemberDto;
 import com.example.mini_community.repository.member.MemberRepository;
 import com.example.mini_community.service.board.BoardService;
 import jakarta.transaction.Transactional;
@@ -46,5 +47,11 @@ public class MemberService {
     @Transactional
     public BoardsWithPaginationResponse findCommentBoardByMember(Member member, Integer page) {
         return boardService.findCommentBoardByMember(member, page);
+    }
+
+    @Transactional
+    public MemberDto findMyInformation(Member member) {
+        Member loginMember =  memberRepository.findById(member.getId()).orElseThrow(() -> new BusinessException(MEMBER_NOT_FOUND));
+         return MemberDto.toDto(loginMember);
     }
 }
