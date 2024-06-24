@@ -2,6 +2,7 @@ package com.example.mini_community.service.member;
 
 import com.example.mini_community.common.exception.BusinessException;
 import com.example.mini_community.domain.member.Member;
+import com.example.mini_community.dto.auth.EditMemberRequest;
 import com.example.mini_community.dto.board.BoardsWithPaginationResponse;
 import com.example.mini_community.dto.member.MemberDto;
 import com.example.mini_community.repository.member.MemberRepository;
@@ -53,5 +54,11 @@ public class MemberService {
     public MemberDto findMyInformation(Member member) {
         Member loginMember =  memberRepository.findById(member.getId()).orElseThrow(() -> new BusinessException(MEMBER_NOT_FOUND));
          return MemberDto.toDto(loginMember);
+    }
+
+    @Transactional
+    public MemberDto editMyProfile(Member member, EditMemberRequest req) {
+        member.update(req.getNickname(), req.getProfile_img());
+        return MemberDto.toDto(member);
     }
 }
