@@ -37,6 +37,7 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher("/auth/join"),
                                 new AntPathRequestMatcher("/auth/login"),
                                 new AntPathRequestMatcher("/auth/token"),
+                                new AntPathRequestMatcher("/auth/leave"),
                                 new AntPathRequestMatcher("/user"),
                                 new AntPathRequestMatcher("/boards"),
                                 new AntPathRequestMatcher("/boards/*"),

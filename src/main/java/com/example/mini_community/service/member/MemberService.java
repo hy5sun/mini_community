@@ -61,4 +61,8 @@ public class MemberService {
         member.update(req.getNickname(), req.getProfile_img());
         return MemberDto.toDto(member);
     }
+
+    public void deleteMember(Member member) {
+        memberRepository.delete(member);
+    }
 }

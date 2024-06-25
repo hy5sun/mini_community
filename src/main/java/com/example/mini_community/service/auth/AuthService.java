@@ -109,4 +109,12 @@ public class AuthService {
         Long memberId = tokenProvider.getMemberId(token);
         return memberService.findById(memberId);
     }
+
+    @Transactional
+    public void deleteMember(Member member, PasswordValidateRequest req) {
+        if(!bCryptPasswordEncoder.matches(req.getPassword(), member.getPassword())) {
+            throw new BusinessException(WRONG_PASSWORD);
+        }
+        memberService.deleteMember(member);
+    }
 }
