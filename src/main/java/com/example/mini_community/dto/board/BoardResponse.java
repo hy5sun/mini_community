@@ -23,6 +23,8 @@ public class BoardResponse {
     private Boolean isLike;
 
     public static BoardResponse entityToDto(Board board, Boolean isLike) {
+        Integer commentCount = board.getComments() == null ? 0 : board.getComments().size();
+
         return new BoardResponse(board.getId(),
                 board.getTitle(),
                 board.getContent(),
@@ -30,7 +32,7 @@ public class BoardResponse {
                 board.getMember().getNickname(),
                 board.getView_count(),
                 board.getLike_count(),
-                board.getComments().size(),
+                commentCount,
                 isLike);
     }
 }
