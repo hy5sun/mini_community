@@ -54,6 +54,11 @@ public class Member extends BaseTimeEntity implements UserDetails {
         this.password = password;
     }
 
+    public void update(String nickname, String profile_img){
+        this.nickname = nickname;
+        this.profile_img = profile_img;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("member"));

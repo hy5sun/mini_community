@@ -37,12 +37,15 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher("/auth/join"),
                                 new AntPathRequestMatcher("/auth/login"),
                                 new AntPathRequestMatcher("/auth/token"),
+                                new AntPathRequestMatcher("/auth/leave"),
                                 new AntPathRequestMatcher("/user"),
                                 new AntPathRequestMatcher("/boards"),
                                 new AntPathRequestMatcher("/boards/*"),
                                 new AntPathRequestMatcher("/boards/*/like"),
                                 new AntPathRequestMatcher("/boards/*/comments"),
-                                new AntPathRequestMatcher("/boards/*/comments/*")
+                                new AntPathRequestMatcher("/boards/*/comments/*"),
+                                new AntPathRequestMatcher("/members"),
+                                new AntPathRequestMatcher("/members/*")
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

@@ -37,4 +37,11 @@ public class AuthController {
 
         return CustomResponse.response(HttpStatus.CREATED, "accessToken을 정상적으로 발급했습니다.", newAccessToken);
     }
+
+    @DeleteMapping("/leave")
+    @ResponseStatus(HttpStatus.OK)
+    public CustomResponse deleteMember(@Validated @RequestBody PasswordValidateRequest req, @Login Member member) {
+        authService.deleteMember(member, req);
+        return CustomResponse.response(HttpStatus.OK, member.getNickname() + "님이 탈퇴했습니다.");
+    }
 }
