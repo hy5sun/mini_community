@@ -67,8 +67,8 @@ public class AuthService {
             refreshTokenRepository.deleteByMemberId(member.getId());
         }
 
-        String accessToken = tokenProvider.generateToken(Duration.ofHours(2), member);
-        String refreshToken = tokenProvider.generateToken(Duration.ofDays(7), member);
+        String accessToken = tokenProvider.generateToken(Duration.ofDays(14), member);
+        String refreshToken = tokenProvider.generateToken(Duration.ofDays(31), member);
 
         // refreshToken 저장 (추후에 암호화 후 저장하도록 수정)
         RefreshToken rt = RefreshToken.builder()
@@ -95,7 +95,7 @@ public class AuthService {
             throw new BusinessException(INVALID_TOKEN);
         }
 
-        String newAccessToken = tokenProvider.generateToken(Duration.ofHours(2), member);
+        String newAccessToken = tokenProvider.generateToken(Duration.ofDays(14), member);
 
         return CreateAccessTokenResponse.entityToDto(newAccessToken);
     }
